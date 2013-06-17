@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+$:.unshift File.expand_path('../../lib', __FILE__)
+
+require 'json'
+require 'bundler/setup'
+require 'craftbelt/instance'
+
+minecraft = Craftbelt::Instance.new('.')
+abort JSON.dump(failed: "unrecognised minecraft world") unless minecraft.valid?
+
+minecraft.prepare!
+minecraft = Craftbelt::Instance.new('.')
+
+puts JSON.dump minecraft.to_h([
+  'config',
+  'coremods',
+  'lib',
+  'mods',
+  'ops.txt',
+  'server.properties',
+  'white-list.txt',
+])
+
